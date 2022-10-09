@@ -20,6 +20,10 @@ io.on('connect', (socket) => {
     cb()
   })
 
+  socket.on('connectToReceiver', (receiverId: string) => {
+    io.to(receiverId).emit('senderConnected', socket.id)
+  })
+
   socket.on('disconnect', () => {
     console.log(`disconnect ${socket.id}`)
   })
