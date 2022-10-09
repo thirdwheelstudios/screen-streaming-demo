@@ -5,8 +5,9 @@ export const useSocketsStore = defineStore('sockets', {
   state: () => {
     let _socket: Socket | undefined
     let _connected: boolean = false
+    let _senderId: string | undefined
 
-    return { _socket, _connected }
+    return { _socket, _connected, _senderId }
   },
   getters: {
     id(state) {
@@ -14,6 +15,9 @@ export const useSocketsStore = defineStore('sockets', {
     },
     isConnected(state) {
       return state._connected
+    },
+    senderId(state) {
+      return state._senderId
     },
   },
   actions: {
@@ -30,10 +34,18 @@ export const useSocketsStore = defineStore('sockets', {
         this._connected = false
       })
 
+      socket.on('senderConnected', (senderId: string) => {
+        console.log(`sender connected: ${senderId}`)
+        this._senderId = senderId
+      })
+
       this._socket = socket
     },
     ping(callback: () => void) {
       this._socket?.emit('ping', callback)
+    },
+    connectToReceiver(receiverId: string) {
+      this._socket?.emit('connectToReceiver', receiverId)
     },
   },
 })

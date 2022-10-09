@@ -6,15 +6,20 @@ interface Props {
   receiverId: string
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
 
 const socketsStore = useSocketsStore()
 
 const socketId = computed(() => socketsStore.id)
+
+const connect = () => {
+  socketsStore.connectToReceiver(props.receiverId)
+}
 </script>
 
 <template>
   <h1>Broadcast</h1>
   <div>Socket Id: {{ socketId }}</div>
   <div>Receiver Id: {{ receiverId }}</div>
+  <button v-if="receiverId" @click="connect">Connect</button>
 </template>

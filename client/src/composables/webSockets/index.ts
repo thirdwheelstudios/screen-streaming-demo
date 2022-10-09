@@ -7,13 +7,13 @@ export function webSockets() {
   onMounted(() => {
     socketsStore.connect()
 
-    setInterval(() => {
-      const start = Date.now()
+    // setInterval(() => {
+    //   const start = Date.now()
 
-      socketsStore.ping(() => {
-        console.log(`pong (latency: ${Date.now() - start} ms)`)
-      })
-    }, 1000)
+    //   socketsStore.ping(() => {
+    //     console.log(`pong (latency: ${Date.now() - start} ms)`)
+    //   })
+    // }, 1000)
   })
 
   return {}
