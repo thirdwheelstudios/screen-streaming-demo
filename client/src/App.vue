@@ -1,25 +1,10 @@
 <script setup lang="ts">
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import { io } from 'socket.io-client'
 import HelloWorld from './components/HelloWorld.vue'
+import { webSockets } from './composables/webSockets'
 
-const socket = io('ws://localhost:8080/', {})
-
-socket.on('connect', () => {
-  console.log(`connect: ${socket.id}`)
-})
-
-socket.on('disconnect', () => {
-  console.log(`disconnect: ${socket.id}`)
-})
-
-setInterval(() => {
-  const start = Date.now()
-  socket.emit('ping', () => {
-    console.log(`pong (latency: ${Date.now() - start} ms)`)
-  })
-}, 1000)
+webSockets()
 </script>
 
 <template>
