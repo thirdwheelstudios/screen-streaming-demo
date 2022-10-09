@@ -10,9 +10,10 @@ const routes = [
     component: StreamViewer,
   },
   {
-    path: '/broadcast',
+    path: '/broadcast/:receiverId',
     name: 'broadcast',
     component: StreamBroadcast,
+    props: true,
   },
 ] as RouteRecordRaw[]
 
