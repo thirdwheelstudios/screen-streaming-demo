@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import { useSocketsStore, useWebRTCStore } from '../store'
 
 interface Props {
@@ -17,6 +17,15 @@ const connect = () => {
   socketsStore.connectToReceiver(props.receiverId)
   webRTCStore.startBroadcasting(props.receiverId)
 }
+
+watch(
+  () => socketsStore.sdp,
+  async (value) => {
+    if (!value) return
+
+    await webRTCStore.setRemoteDescription(value)
+  }
+)
 </script>
 
 <template>

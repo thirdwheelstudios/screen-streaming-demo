@@ -6,8 +6,10 @@ export const useSocketsStore = defineStore('sockets', {
     let _socket: Socket | undefined
     let _connected: boolean = false
     let _senderId: string | undefined
+    let _sdp: RTCSessionDescription | null | undefined
+    let _candidate: RTCIceCandidate | null | undefined
 
-    return { _socket, _connected, _senderId }
+    return { _socket, _connected, _senderId, _sdp, _candidate }
   },
   getters: {
     id(state) {
@@ -18,6 +20,12 @@ export const useSocketsStore = defineStore('sockets', {
     },
     senderId(state) {
       return state._senderId
+    },
+    sdp(state) {
+      return state._sdp
+    },
+    candidate(state) {
+      return state._candidate
     },
   },
   actions: {
@@ -41,10 +49,12 @@ export const useSocketsStore = defineStore('sockets', {
 
       socket.on('iceCandidate', (candidate: RTCIceCandidate) => {
         console.log('candidate', candidate)
+        this._candidate = candidate
       })
 
       socket.on('sdp', (sdp: RTCSessionDescription | null) => {
         console.log('sdp', sdp)
+        this._sdp = sdp
       })
 
       this._socket = socket
@@ -55,10 +65,10 @@ export const useSocketsStore = defineStore('sockets', {
     connectToReceiver(receiverId: string) {
       this._socket?.emit('connectToReceiver', receiverId)
     },
-    iceCandidate(receiverId: string, candidate: RTCIceCandidate) {
+    sendIceCandidate(receiverId: string, candidate: RTCIceCandidate) {
       this._socket?.emit('iceCandidate', receiverId, candidate)
     },
-    sdp(receiverId: string, sdp: RTCSessionDescription | null) {
+    sendSdp(receiverId: string, sdp: RTCSessionDescription | null) {
       this._socket?.emit('sdp', receiverId, sdp)
     },
   },
