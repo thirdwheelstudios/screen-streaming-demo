@@ -24,6 +24,17 @@ io.on('connect', (socket) => {
     io.to(receiverId).emit('senderConnected', socket.id)
   })
 
+  socket.on(
+    'iceCandidate',
+    (receiverId: string, candidate: RTCIceCandidate) => {
+      io.to(receiverId).emit('iceCandidate', candidate)
+    }
+  )
+
+  socket.on('sdp', (receiverId: string, sdp: RTCSessionDescription | null) => {
+    io.to(receiverId).emit('sdp', sdp)
+  })
+
   socket.on('disconnect', () => {
     console.log(`disconnect ${socket.id}`)
   })
