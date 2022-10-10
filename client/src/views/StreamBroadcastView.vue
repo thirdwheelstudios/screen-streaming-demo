@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useSocketsStore } from '../store'
+import { useSocketsStore, useWebRTCStore } from '../store'
 
 interface Props {
   receiverId: string
@@ -9,11 +9,13 @@ interface Props {
 const props = defineProps<Props>()
 
 const socketsStore = useSocketsStore()
+const webRTCStore = useWebRTCStore()
 
 const socketId = computed(() => socketsStore.id)
 
 const connect = () => {
   socketsStore.connectToReceiver(props.receiverId)
+  webRTCStore.startBroadcasting(props.receiverId)
 }
 </script>
 

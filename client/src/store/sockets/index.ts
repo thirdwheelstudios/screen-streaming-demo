@@ -39,6 +39,14 @@ export const useSocketsStore = defineStore('sockets', {
         this._senderId = senderId
       })
 
+      socket.on('iceCandidate', (candidate: RTCIceCandidate) => {
+        console.log('candidate', candidate)
+      })
+
+      socket.on('sdp', (sdp: RTCSessionDescription | null) => {
+        console.log('sdp', sdp)
+      })
+
       this._socket = socket
     },
     ping(callback: () => void) {
@@ -46,6 +54,12 @@ export const useSocketsStore = defineStore('sockets', {
     },
     connectToReceiver(receiverId: string) {
       this._socket?.emit('connectToReceiver', receiverId)
+    },
+    iceCandidate(receiverId: string, candidate: RTCIceCandidate) {
+      this._socket?.emit('iceCandidate', receiverId, candidate)
+    },
+    sdp(receiverId: string, sdp: RTCSessionDescription | null) {
+      this._socket?.emit('sdp', receiverId, sdp)
     },
   },
 })
