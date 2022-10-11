@@ -18,11 +18,6 @@ httpServer.listen(Number(port))
 io.on('connect', (socket) => {
   console.log(`connect ${socket.id}`)
 
-  socket.on('ping', (cb) => {
-    console.log('ping')
-    cb()
-  })
-
   socket.on('connectToReceiver', (receiverId: string) => {
     io.to(receiverId).emit('senderConnected', socket.id)
   })

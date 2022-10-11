@@ -59,9 +59,6 @@ export const useSocketsStore = defineStore('sockets', {
 
       this._socket = socket
     },
-    ping(callback: () => void) {
-      this._socket?.emit('ping', callback)
-    },
     connectToReceiver(receiverId: string) {
       this._socket?.emit('connectToReceiver', receiverId)
     },
