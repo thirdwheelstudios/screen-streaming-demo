@@ -1,16 +1,19 @@
 import { createServer } from 'http'
 import { Server } from 'socket.io'
 
-const port = 8080
+const port = process.env.port ?? '8080'
+
+const corsOrigins =
+  process.env.corsOrigins ?? 'http://localhost:5173,http://127.0.0.1:5173'
 
 const httpServer = createServer()
 const io = new Server(httpServer, {
   cors: {
-    origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+    origin: corsOrigins.split(','),
   },
 })
 
-httpServer.listen(port)
+httpServer.listen(Number(port))
 
 io.on('connect', (socket) => {
   console.log(`connect ${socket.id}`)
