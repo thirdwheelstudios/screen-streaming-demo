@@ -10,7 +10,7 @@ RUN npm run build
 FROM node:18-alpine
 WORKDIR /usr
 COPY package.json ./
-RUN npm run install --only=production
+RUN npm install --only=production
 COPY --from=0 /usr/dist .
 RUN npm install pm2 -g
 EXPOSE 80
